@@ -22,7 +22,7 @@ def lee_carreras(fichero:str)-> list[Carrera]:
         next(lector)
         res= []
         for nombre, escuderia, fecha_carrera, temperatura_min, vel_max, duracion, poisicion_final, ciudad, top_6_vueltas,tiempo_boxes,nivel_liquido in lector:
-            fecha_carrera = datetime.strptime(fecha_carrera, "%d-%m-%y")
+            fecha_carrera = datetime.strptime(fecha_carrera, "%d-%m-%y").date()
             temperatura_min = int(temperatura_min)
             vel_max = float(vel_max)
             duracion = float(duracion)
@@ -35,16 +35,41 @@ def lee_carreras(fichero:str)-> list[Carrera]:
     return res
 
 def parsea_vueltas(lista_vueltas: str)->list[float]:
+    lista_vueltas = lista_vueltas.replace("[", "").replace("]", "").replace(" ","")
     lista = []
-    lista_vueltas.replace("[", "") and lista_vueltas.replace("]", "")
-    lista_vueltas.replace(" ","")
     for trozo in lista_vueltas.split("/"):
         if trozo == "-":
             lista.append(0.0)
         else:
             lista.append(float(trozo))
-    return trozo
-        
+    return lista
+
+def media_tiempo_boxes(carreras:list[Carrera], ciudad:str, fecha:date | None =None)->float:
+    fechas = None
+    lista = []
+    for e in carreras:
+        if (fechas == None or fechas == fecha) and e.ciudad == ciudad:
+            lista.append(e.tiempo_boxes)
+            media = sum(lista)/len(lista)
+            
+        elif fecha == None:
+            if ciudad == e.ciudad:
+                lista.append(e.tiempo_boxes)
+                media = sum(lista)
+           
+        else: 
+            media = 0.0
+    return media
+
+            
+def pilotos_menor_tiempo_medio_vueltas_top(carreras:list[Carrera], n)->list[tuple[str,date]]:
+    lista = []
+    for e in carreras:
+        if 0 not in e.top_6_vueltas:
+            media_top = sum(e.top_6_vueltas) / len(e.top_6_vueltas)
+            lista.append((media_top, e.nombre, e.fecha_carrera))
+           
+    lista.sort()
+    return [(e[1],e[-1]) for e in lista][:n]
 
 
-#Fernando Alonso;Aston Martin;21-11-22;25;330.1;30.5;-1;Abu Dhabi;[31.254/ 31.567/ 31.789/ 32.045/ -/ -];15.23;no

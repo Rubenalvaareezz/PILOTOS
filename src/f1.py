@@ -74,8 +74,12 @@ def pilotos_menor_tiempo_medio_vueltas_top(carreras:list[Carrera], n)->list[tupl
 
 
 def ratio_tiempo_boxes_total(carreras:list[Carrera])->list[tuple[str,date, float]]:
-    lista = []
+    tiempo_total = []
     for e in carreras:
+        if e.fecha_carrera.day == e.fecha_carrera.day:
+            tiempo_total.append(e.tiempo_boxes)
+    sorted(tiempo_total)
+    return [(e.nombre,e.fecha_carrera, e.tiempo_boxes/sum(tiempo_total))]
         
 
             

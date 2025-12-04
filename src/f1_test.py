@@ -18,3 +18,6 @@ print(f"Los {n} pilotos con menor tiempo medio son {piloto_menos_tiempo}")
 print("------------------------------------------------------------------------------------")
 
 #APARTADO 4
+ratio = ratio_tiempo_boxes_total(ruta)
+for e in ratio:
+    print(f"Los ratios del tiempo en boxes son: {e}")

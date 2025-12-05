@@ -20,3 +20,6 @@ ratio = ratio_tiempo_boxes_total(ruta)
 for e in ratio:
     print(f"Test ratio_tiempo_boxes_total Los ratios del tiempo en boxes son: {e}")
 print("-----------------------------------------------------------------------------")
+
+puntos = puntos_pilotos_anyos(ruta)
+print(puntos)

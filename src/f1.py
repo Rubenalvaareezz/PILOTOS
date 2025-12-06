@@ -88,13 +88,33 @@ def ratio_tiempo_boxes_total(carreras:list[Carrera])->list[tuple[str,date, float
 def puntos_pilotos_anyos(carreras:list[Carrera])->dict[str, list[int]]:
     diccionario = defaultdict(int)
     for e in carreras:
-        diccionario[e.nombre] = total_puntos_por_pilotos(e)
+        diccionario[e.nombre].append(total_puntos_por_pilotos(e))
     return diccionario 
     
     
 def total_puntos_por_pilotos(carrera:Carrera)->list[tuple[int,int]]:
     puntos = 0
-    
+    puntos2 =0
+    if carrera.fecha_carrera.year == 2023:
+        if carrera.posicion_final == 1:
+            puntos += 50
+        elif carrera.posicion_final == 2:
+            puntos += 25
+        elif carrera.posicion_final == 3:
+            puntos += 10
+        else:
+            puntos += 0
+    else:
+        if carrera.posicion_final == 1:
+            puntos += 50
+        elif carrera.posicion_final == 2:
+            puntos += 25
+        elif carrera.posicion_final == 3:
+            puntos += 10
+        else:
+            puntos += 0
+        
+    return [(puntos2, puntos)]
     
 
 

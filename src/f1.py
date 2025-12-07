@@ -81,43 +81,36 @@ def ratio_tiempo_boxes_total(carreras:list[Carrera])->list[tuple[str,date, float
     tiempo_total = defaultdict(float)
     for e in carreras:
         tiempo_total[e.fecha_carrera] += e.tiempo_boxes
-    lista = [(e.nombre,(e.fecha_carrera).strftime("%Y-%m-%d"),round((e.tiempo_boxes/tiempo_total[e.fecha_carrera]),3)) for e in carreras]
+    lista = [(e.nombre,e.fecha_carrera,round((e.tiempo_boxes/tiempo_total[e.fecha_carrera]),3)) for e in carreras]
         
     return  sorted(lista, key= lambda t:t[2], reverse=True)
+
+
+
 
 def puntos_pilotos_anyos(carreras:list[Carrera])->dict[str, list[int]]:
     diccionario = defaultdict(int)
     for e in carreras:
-        diccionario[e.nombre].append(total_puntos_por_pilotos(e))
+       
+        diccionario[e.nombre] +=(total_puntos_por_pilotos(e))
     return diccionario 
     
     
 def total_puntos_por_pilotos(carrera:Carrera)->list[tuple[int,int]]:
     puntos = 0
-    puntos2 =0
-    if carrera.fecha_carrera.year == 2023:
-        if carrera.posicion_final == 1:
-            puntos += 50
-        elif carrera.posicion_final == 2:
-            puntos += 25
-        elif carrera.posicion_final == 3:
-            puntos += 10
-        else:
-            puntos += 0
-    else:
-        if carrera.posicion_final == 1:
-            puntos += 50
-        elif carrera.posicion_final == 2:
-            puntos += 25
-        elif carrera.posicion_final == 3:
-            puntos += 10
-        else:
-            puntos += 0
-        
-    return [(puntos2, puntos)]
     
-
-
+    if carrera.fecha_carrera.year ==2022 :
+        if carrera.posicion_final == 1:
+            puntos += 50
+        elif carrera.posicion_final == 2:
+            puntos += 25
+        elif carrera.posicion_final == 3:
+            puntos += 10
+        else:
+            puntos += 0
+   
+        
+    return  puntos
 
 
 def mejor_escuderia_anyo(carreras:list[Carrera], anyo:int)->str:
@@ -125,5 +118,7 @@ def mejor_escuderia_anyo(carreras:list[Carrera], anyo:int)->str:
         if e.fecha_carrera.year == anyo and e.posicion_final == 1:
             return e.escuderia
             
+
+
 
 
